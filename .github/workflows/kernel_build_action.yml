@@ -38,6 +38,9 @@ jobs:
           aosp-clang-version: r383902
           aosp-gcc: true
           android-version: 11
+          ksu: true
+          ksu-other: true
+          ksu-url: https://github.com/KernelSU-Next/KernelSU-Next
           disable-lto: false
           anykernel3: true
           ccache: true
