@@ -47,3 +47,18 @@ jobs:
       - name: Pack boot images (Clean & Magisk)
         run: |
           ./scripts/pack_boot.sh --both
+
+      - name: List output files
+        if: always()
+        run: |
+          find . -type f \( -name "*.img" -o -name "Image*" -o -name "*.zip" \) -not -path "./.git/*" | head -50
+
+      - name: Upload boot images
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-images
+          path: |
+            out/*.img
+            out/arch/arm64/boot/Image*
+            *.img
+          if-no-files-found: error
