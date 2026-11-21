@@ -298,8 +298,15 @@ BUILD_ARGS=(
 echo "=== GENERATING CONFIG ==="
 make "${BUILD_ARGS[@]}" "$DEFCONFIG"
 
+# -----------------------------------------------------------------------------
+# Install Kernel Headers
+# -----------------------------------------------------------------------------
 echo "=== INSTALLING KERNEL HEADERS ==="
 make O=out ARCH=arm64 headers_install
+
+echo "=== VERIFYING INSTALLED HEADERS ==="
+test -f out/usr/include/linux/unistd.h
+echo "Headers installed successfully: out/usr/include/"
 
 echo "=== BUILDING KERNEL ==="
 timeout "${BUILD_TIMEOUT_MIN}m" \
@@ -323,7 +330,7 @@ RUN_NUMBER_FILE="$ARTIFACT_ROOT/.run_number"
 RUN_NUMBER=$(( $(cat "$RUN_NUMBER_FILE" 2>/dev/null || echo 0) + 1 ))
 echo "$RUN_NUMBER" > "$RUN_NUMBER_FILE"
 
-ARTIFACT_NAME="Camellian-TOS-Kernel-${RUN_NUMBER}"
+ARTIFACT_NAME="camellian-oss-kernel-${RUN_NUMBER}"
 ARTIFACT_DIR="$ARTIFACT_ROOT/$ARTIFACT_NAME"
 mkdir -p "$ARTIFACT_DIR"
 
